@@ -1,0 +1,16 @@
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /home/centos/cloud-computing-for-quality-engineers/assignments/assignment-3/src/combined.log
+
+filebeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: false
+
+setup.template.settings:
+  index.number_of_shards: 3
+
+output.elasticsearch:
+  hosts: [ "AMAZON_ES_DOMAIN_ID.eu-central-1.es.amazonaws.com:443" ]
+  protocol: "https"

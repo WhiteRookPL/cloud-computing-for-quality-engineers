@@ -1,0 +1,16 @@
+{
+  "name": "cloud-computing-for-quality-engineers-assignment-3",
+  "version": "1.0.0",
+  "description": "Simple application that generates log entries.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Wojciech Gawronski <wgawronski@white-rook.pl>",
+  "license": "MIT",
+  "dependencies": {
+    "node-ec2-metadata": "0.0.5",
+    "q": "^1.5.1",
+    "winston": "^3.1.0"
+  }
+}

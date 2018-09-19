@@ -1,0 +1,9 @@
+---
+- name: Install the package "htop"
+  yum:
+    name: htop
+    state: present
+  become: true
+
+- debug:
+    msg: "Ansible invoked inside {{ builder }}."

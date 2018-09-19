@@ -1,0 +1,26 @@
+{
+  "name": "cloud-computing-for-quality-engineers-workshop-infrastructure-as-a-code",
+  "version": "1.0.0",
+  "description": "Infrastructure as a Code for our workshop titled Cloud Computing for Quality Engineers.",
+  "main": "index.js",
+  "keywords": [
+    "AWS",
+    "Amazon Web Services",
+    "Quality Engineers",
+    "QA",
+    "TestOps",
+    "DevOps"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w"
+  },
+  "author": "Wojciech Gawronski <wgawronski@white-rook.pl>",
+  "license": "MIT",
+  "dependencies": {
+    "@aws-cdk/aws-iam": "^0.9.2",
+    "@aws-cdk/aws-s3": "^0.9.2",
+    "@aws-cdk/cdk": "^0.9.2",
+    "@types/node": "^10.10.2"
+  }
+}

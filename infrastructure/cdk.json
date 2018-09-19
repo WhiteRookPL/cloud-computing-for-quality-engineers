@@ -1,0 +1,7 @@
+{
+  "app": "node index.js",
+  "context": {
+    "region": "eu-central-1",
+    "password": "DUMMY_PASSWORD_THAT_SHOULD_BE_OVERRIDDEN"
+  }
+}

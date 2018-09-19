@@ -1,0 +1,85 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: |
+  Cloud Computing for Quality Engineers - Assignment 1 consisting of:
+  * Amazon EC2 instance where we will deploy our application.
+  * Amazon RDS database where we will host our database.
+
+Parameters:
+
+  PASSWORD:
+    Description: >
+      Start password for the `root` user in the database.
+    Type: String
+    NoEcho: true
+
+  ENV:
+    Description: >
+      This points out which region and stage should be used - we call it an environment.
+    Type: String
+    Default: eu-central-1
+    AllowedValues:
+      - eu-central-1
+    ConstraintDescription: >
+      Must be one of the defined allowed values.
+
+Mappings:
+
+  EnvSettings:
+    eu-central-1:
+      KeyPairName: afronski-keypair
+      AmiId: ami-0a5282c10742fd306
+      DatabaseSecurityGroupId: sg-0e8117cd63caf10f2
+      BackEndSecurityGroupId: sg-0f3520baa52cf3841
+
+Resources:
+
+  BackEndServer:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !FindInMap [ EnvSettings, !Ref "ENV", "AmiId" ]
+      KeyName: !FindInMap [ EnvSettings, !Ref "ENV", "KeyPairName" ]
+      InstanceType: t2.micro
+      SecurityGroupIds:
+        - !FindInMap [ EnvSettings, !Ref "ENV", "BackEndSecurityGroupId" ]
+        - !FindInMap [ EnvSettings, !Ref "ENV", "DatabaseSecurityGroupId" ]
+      Tags:
+        - Key: Name
+          Value: test-environment-back-end-master
+
+  TestEnvironmentDatabase:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      Engine: postgres
+      EngineVersion: "10.4"
+
+      AllocatedStorage: 20
+      StorageType: gp2
+
+      DBInstanceIdentifier: test-environment-db-master
+      DBInstanceClass: db.t2.micro
+
+      Port: 5432
+      MasterUsername: root
+      MasterUserPassword: !Ref "PASSWORD"
+      DBName: main
+
+      VPCSecurityGroups:
+        - !FindInMap [ EnvSettings, !Ref "ENV", "DatabaseSecurityGroupId" ]
+
+Outputs:
+
+  BackEndServerAddress:
+    Description: >
+      Test environment back-end server address which can be used directly in the configuration.
+    Value: !GetAtt "BackEndServer.PublicDnsName"
+
+  TestEnvironmentDatabaseAddress:
+    Description: >
+      Test environment database address which can be used directly in the configuration.
+    Value: !GetAtt "TestEnvironmentDatabase.Endpoint.Address"
+
+  TestEnvironmentDatabasePort:
+    Description: >
+      Test environment database port which can be used directly in the configuration.
+    Value: !GetAtt "TestEnvironmentDatabase.Endpoint.Port"

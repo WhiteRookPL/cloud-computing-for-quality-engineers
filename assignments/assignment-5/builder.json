@@ -1,0 +1,99 @@
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": "",
+
+    "aws_region": "",
+
+    "source_ami": ""
+  },
+
+  "builders": [
+    {
+      "type": "amazon-ebs",
+
+      "access_key": "{{ user `aws_access_key` }}",
+      "secret_key": "{{ user `aws_secret_key` }}",
+      "region": "{{ user `aws_region` }}",
+
+      "source_ami": "{{ user `source_ami` }}",
+
+      "instance_type": "t2.micro",
+      "ssh_username": "centos",
+
+      "ami_name": "baked-ami-{{ timestamp }}",
+      "ami_description": "Base AMI - Base for all components used in our project.",
+
+      "tags": {
+        "App": "base-ami",
+        "Source": "{{ user `source_ami` }}",
+        "Date": "{{ timestamp }}",
+        "OS": "CentOS 7",
+        "Architecture": "x86_64",
+        "Stage": "PROD",
+        "Owner": "your@email.com"
+      },
+
+      "run_tags": {
+        "Name": "packer-builder",
+        "App": "packer",
+        "Stack": "ci_cd",
+        "SubStack": "ci_cd/packer",
+        "Stage": "PROD",
+        "Owner": "your@email.com"
+      },
+      "run_volume_tags": {
+        "Name": "packer-builder",
+        "App": "packer",
+        "Stack": "ci_cd",
+        "SubStack": "ci_cd/packer",
+        "Stage": "PROD",
+        "Owner": "your@email.com"
+      }
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": "sudo yum install -y epel-release"
+    },
+    {
+      "type": "shell",
+      "inline": "sudo yum install -y ansible gcc g++ make automake autoconf curl-devel openssl-devel zlib-devel httpd-devel apr-devel apr-util-devel sqlite-devel rubygems ruby-devel rubygem-bundler"
+    },
+    {
+      "type": "shell",
+      "inline": "sudo rm -rf /tmp/packer-provisioner-ansible-local"
+    },
+
+    {
+      "type": "ansible-local",
+      "role_paths": [
+        "./roles/common"
+      ],
+      "group_vars": "./group_vars",
+      "inventory_file": "./inventory/{{ user `aws_region` }}/prod",
+      "playbook_file": "base-ami.yml"
+    },
+
+    {
+      "type": "file",
+      "source": "tests",
+      "destination": "/tmp"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/check_produced_ami.sh"
+    },
+
+    {
+      "type": "shell",
+      "inline": "sudo yum remove -y ruby-devel rubygem-bundler"
+    },
+    {
+      "type": "shell",
+      "inline": "sudo rm -rf /tmp/packer-provisioner-ansible-local"
+    }
+  ]
+}

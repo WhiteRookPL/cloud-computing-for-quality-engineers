@@ -1,0 +1,11 @@
+{
+  "database": {
+    "user": "root",
+    "password": "",
+
+    "host": "",
+    "port": 5432,
+
+    "database": "main"
+  }
+}

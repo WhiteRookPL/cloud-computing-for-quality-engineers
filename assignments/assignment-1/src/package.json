@@ -1,0 +1,16 @@
+{
+  "name": "cloud-computing-for-quality-engineers-assignment-1",
+  "version": "1.0.0",
+  "description": "Simple application that connects to SQL database and exposes stats page.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Wojciech Gawronski <wgawronski@white-rook.pl>",
+  "license": "MIT",
+  "dependencies": {
+    "node-ec2-metadata": "0.0.5",
+    "pg": "7.4.3",
+    "q": "^1.5.1"
+  }
+}
