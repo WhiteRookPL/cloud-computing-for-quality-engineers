@@ -39,6 +39,8 @@ Our *test environment* is built from following services and instances:
 
 ## FAQ and Cheat-sheet
 
+- *Linux* and *macOS* users have to setup proper permissions on their keys:
+  - `chmod 0600 path_to_your_downloaded_key.pem`
 - User: `centos`.
 - Server is running on port `8080`.
 - AMI ID used for that assignment: `ami-0a5282c10742fd306`

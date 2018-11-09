@@ -19,10 +19,11 @@ In this assignment we would like to show how easy is to create a *VM* with use o
     - Then we need to convert the key-pair in *PEM* format into *PPK*:
       - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/putty.html
 3. After accessing newly created instance with *SSH*, we can proceed with the following commands:
-  - `sudo yum update –y`
-  - `sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkinsci.org/redhat/jenkins.repo`
-  - `sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key`
-  - `sudo yum install jenkins -y`
+  - `sudo yum update -y`
+  - `sudo pm2 stop all`
+  - `sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo`
+  - `sudo rpm --import https://pkg.jenkins-ci.io/redhat/jenkins.io.key`
+  - `sudo yum install jdk jre jenkins -y`
   - `sudo service jenkins start`
 4. Connect to `http://YOUR_SERVER_PUBLIC_DNS:8080` from your favorite browser.
   - You will be able to access Jenkins through its management interface, which will tell where to look for a first password.
@@ -31,7 +32,7 @@ In this assignment we would like to show how easy is to create a *VM* with use o
 6. Once the installation is complete, enter *Administrator Credentials*, click *Save Credentials*, and then click *Start Using Jenkins*.
 7. On the left-hand side, click *Manage Jenkins*, and then click *Manage Plugins*.
 8. Click on the *Available* tab, and then enter *Amazon EC2 plugin* at the top right.
-9. Select the check-box next to *Amazon EC2 plugin*, and then click *Install without restart*.
+9. Select the check-box next to *Amazon EC2* plugin, and then click *Install without restart*.
 10. Once the installation is done, click *Go back* to the top page.
 11. Click on *Manage Jenkins*, and then *Configure System*.
 12. Scroll all the way down to the section that says *Cloud*.
@@ -40,10 +41,16 @@ In this assignment we would like to show how easy is to create a *VM* with use o
   - Note: You will have to *Add Credentials* of the kind *AWS Credentials*.
     - Enter credentials from the `jenkins` user and created key - values for *Access Key* and *Access Secret Key*.
     - **Remember to save a key if you generated one!**
+  - Set also:
+    - The *private key* (it can be the one you've generated for your user).
+    - Setup *AMI* with the following one: `ami-0a5282c10742fd306`.
+    - Setup *Security Group* names to `http-server-node-js`.
 15. Play with settings e.g. you can enable *spot instances* and optimize the overall costs of your builds.
 
 ## FAQ and Cheat-sheet
 
+- *Linux* and *macOS* users have to setup proper permissions on their keys:
+  - `chmod 0600 path_to_your_downloaded_key.pem`
 - User: `centos`.
 - AMI ID used for that assignment: `ami-0a5282c10742fd306`
 - Security Groups used for this assignment:
