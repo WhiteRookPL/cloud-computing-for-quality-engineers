@@ -13,14 +13,14 @@ We will do that by provisioning an EC2 instance with use of *Ansible*, then we w
 ## Steps to reproduce
 
 1. Fork this repository in your *Github* account.
-  - We would really appreciate if you could **star** that repository too! :wink:
+    - We would really appreciate if you could **star** that repository too! :wink:
 2. Configure *AWS CodePipeline* orchestration flow.
-  - As a first step we create a job which will automatically trigger whole flow after pushing new changes.
-    - Connect your *Github* account with *AWS CodeBuild* in `eu-central-1` region.
-  - As a second step we create *AWS CodeBuild* job that will provision, bake and test the *AMI*.
-    - Use existing service role for *AWS CodePipeline* in the last step: `AWS-CodePipeline-Service`.
+    - As a first step we create a job which will automatically trigger whole flow after pushing new changes.
+        - Connect your *Github* account with *AWS CodeBuild* in `eu-central-1` region.
+    - As a second step we create *AWS CodeBuild* job that will provision, bake and test the *AMI*.
+        - Use existing service role for *AWS CodePipeline* in the last step: `AWS-CodePipeline-Service`.
 3. Attach existing `PackerPolicy` to the newly created *AWS CodeBuild* role.
-  - It allows to execute necessary actions, when Packer bakes the new image.
+    - It allows to execute necessary actions, when Packer bakes the new image.
 4. In order to see how main build job works, let's review the `buildspec.yml` file with related configuration files and scripts.
 
 ## FAQ and Cheat-sheet

@@ -12,7 +12,7 @@ Set of tools used for workshop titled *Cloud Computing for Quality Engineers*. W
 - Your favorite browser.
 - Your own *Github* account.
 - For *Windows* users:
-  - You need to have [*Putty*](https://the.earth.li/~sgtatham/putty/latest/w64/putty-64bit-0.70-installer.msi) and [*PuttyGen*](https://the.earth.li/~sgtatham/putty/latest/w64/puttygen.exe).
+    - You need to have [*Putty*](https://the.earth.li/~sgtatham/putty/latest/w64/putty-64bit-0.70-installer.msi) and [*PuttyGen*](https://the.earth.li/~sgtatham/putty/latest/w64/puttygen.exe).
 
 ## License
 

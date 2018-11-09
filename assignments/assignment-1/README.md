@@ -17,24 +17,24 @@ Our *test environment* is built from following services and instances:
 
 1. Locate *VM* inside *EC2* which is called `test-environment-back-end-master`.
 2. Create *AMI* based on that machine - remember to ensure reboot in order to preserve consistency.
-  - Wait for completion of *AMI* registration process.
-  - Note the *AMI ID* of the created image.
+    - Wait for completion of *AMI* registration process.
+    - Note the *AMI ID* of the created image.
 3. Spin up a new *VM* inside *EC2* with publicly accessible IP address with use of the previous image.
-  - After downloading the key-pair, if you are macOS / Linux user you can proceed without any further changes.
-  - For Windows users, we need to fetch and install *PuTTY* with the companion tools.
-    - Then we need to convert the key-pair in *PEM* format into *PPK*:
-      - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/putty.html
-  - After spinning the new instance, you should locate the *public hostname*.
-    - Open a web browser and head to a following `http://PUBLIC_ADDRESS_IPV4:8080/` page.
-      - You will see details of the running application - but still connected to the old database.
+    - After downloading the key-pair, if you are macOS / Linux user you can proceed without any further changes.
+    - For Windows users, we need to fetch and install *PuTTY* with the companion tools.
+        - Then we need to convert the key-pair in *PEM* format into *PPK*:
+            - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/putty.html
+    - After spinning the new instance, you should locate the *public hostname*.
+        - Open a web browser and head to a following `http://PUBLIC_ADDRESS_IPV4:8080/` page.
+            - You will see details of the running application - but still connected to the old database.
 2. Now, head to the *Amazon RDS* service and locate database instance which is called `test-environment-db-master`.
 3. Create a snapshot of that *database*, we can rely on one of the existing snapshots.
 4. Create a new database instance - using previously created snapshot.
 5. SSH into your machine and reconfigure the application changing `host` inside `config.json` file.
-  - Look under following path:
-    - `/home/centos/cloud-computing-for-quality-engineers/assignments/assignment-1/src`
+    - Look under following path:
+        - `/home/centos/cloud-computing-for-quality-engineers/assignments/assignment-1/src`
 6. After updating that restart all services with a command `pm2 restart`.
-  - `pm2` is a *process management* tool for *Node.js* application.
+    - `pm2` is a *process management* tool for *Node.js* application.
 7. If everything went successfully, after opening a web browser on the following page: `http://PUBLIC_ADDRESS_IPV4:8080/` we should see details of the new database.
 
 ## FAQ and Cheat-sheet

@@ -15,47 +15,47 @@ We would like to present a *serverless*, interactive query service called *Amazo
 ## Steps to reproduce
 
 1. Review the file structure on *S3*.
-  - We analyze bucket called `workshops.white-rook.pl`.
-  - Have a look on an individual file and summary size of those 3 days.
+    - We analyze bucket called `workshops.white-rook.pl`.
+    - Have a look on an individual file and summary size of those 3 days.
 2. Creating table from the multiple raw text files stored in the *S3* bucket.
-  - Change *AWS* service to *Amazon Athena*.
-    - Change the database to the `default`.
-  - Create a table with a following definition:
-    - ```
-      CREATE EXTERNAL TABLE IF NOT EXISTS elb_logs_raw_native (
-        request_timestamp string,
-        elb_name string,
-        request_ip string,
-        request_port int,
-        backend_ip string,
-        backend_port int,
-        request_processing_time double,
-        backend_processing_time double,
-        client_response_time double,
-        elb_response_code string,
-        backend_response_code string,
-        received_bytes bigint,
-        sent_bytes bigint,
-        request_verb string,
-        url string,
-        protocol string,
-        user_agent string,
-        ssl_cipher string,
-        ssl_protocol string )
-      ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.RegexSerDe'
-      WITH SERDEPROPERTIES (
-               'serialization.format' = '1','input.regex' = '([^ ]*) ([^ ]*) ([^ ]*):([0-9]*) ([^ ]*)[:\-]([0-9]*) ([-.0-9]*) ([-.0-9]*) ([-.0-9]*) (|[-0-9]*) (-|[-0-9]*) ([-0-9]*) ([-0-9]*) \\\"([^ ]*) ([^ ]*) (- |[^ ]*)\\\" (\"[^\"]*\") ([A-Z0-9-]+) ([A-Za-z0-9.-]*)$' )
-      LOCATION 's3://workshops.white-rook.pl/elb/raw/';
-      ```
+    - Change *AWS* service to *Amazon Athena*.
+        - Change the database to the `default`.
+    - Create a table with a following definition:
+        - ```
+          CREATE EXTERNAL TABLE IF NOT EXISTS elb_logs_raw_native (
+            request_timestamp string,
+            elb_name string,
+            request_ip string,
+            request_port int,
+            backend_ip string,
+            backend_port int,
+            request_processing_time double,
+            backend_processing_time double,
+            client_response_time double,
+            elb_response_code string,
+            backend_response_code string,
+            received_bytes bigint,
+            sent_bytes bigint,
+            request_verb string,
+            url string,
+            protocol string,
+            user_agent string,
+            ssl_cipher string,
+            ssl_protocol string )
+          ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.RegexSerDe'
+          WITH SERDEPROPERTIES (
+                   'serialization.format' = '1','input.regex' = '([^ ]*) ([^ ]*) ([^ ]*):([0-9]*) ([^ ]*)[:\-]([0-9]*) ([-.0-9]*) ([-.0-9]*) ([-.0-9]*) (|[-0-9]*) (-|[-0-9]*) ([-0-9]*) ([-0-9]*) \\\"([^ ]*) ([^ ]*) (- |[^ ]*)\\\" (\"[^\"]*\") ([A-Z0-9-]+) ([A-Za-z0-9.-]*)$' )
+          LOCATION 's3://workshops.white-rook.pl/elb/raw/';
+          ```
 3. How we came up with the list of fields and deserialization scheme?
-  - It is described [here](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/access-log-collection.html#access-log-entry-format).
-  - After creating a table from it, you can manage its schema with use of *AWS Glue Data Catalog* service.
+    - It is described [here](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/access-log-collection.html#access-log-entry-format).
+    - After creating a table from it, you can manage its schema with use of *AWS Glue Data Catalog* service.
 4. Thanks to previous query *Athena* created a well-defined table from a textual representation that can be queries with a regular *SQL*.
-  - Example queries:
-    - `SELECT * FROM elb_logs_raw_native WHERE elb_response_code = '200' LIMIT 100;`
-    - `SELECT COUNT(*) AS count, elb_response_code FROM elb_logs_raw_native GROUP BY elb_response_code ORDER BY count DESC;`
-    - `SELECT COUNT(*) AS count, DISTINCT request_ip, elb_response_code FROM elb_logs_raw_native GROUP BY request_ip, elb_response_code ORDER BY count DESC LIMIT 100;`
-  - If any query will go be slow or go above the expected time, you can cancel it going to the *History* tab.
+    - Example queries:
+        - `SELECT * FROM elb_logs_raw_native WHERE elb_response_code = '200' LIMIT 100;`
+        - `SELECT COUNT(*) AS count, elb_response_code FROM elb_logs_raw_native GROUP BY elb_response_code ORDER BY count DESC;`
+        - `SELECT COUNT(*) AS count, DISTINCT request_ip, elb_response_code FROM elb_logs_raw_native GROUP BY request_ip, elb_response_code ORDER BY count DESC LIMIT 100;`
+    - If any query will go be slow or go above the expected time, you can cancel it going to the *History* tab.
 
 ## FAQ and Cheat-sheet
 
