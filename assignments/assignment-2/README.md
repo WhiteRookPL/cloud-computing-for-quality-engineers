@@ -20,7 +20,7 @@ In this assignment we would like to show how easy is to create a *VM* with use o
             - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/putty.html
 3. After accessing newly created instance with *SSH*, we can proceed with the following commands:
     - `sudo yum update -y`
-    - `sudo pm2 stop all`
+    - `pm2 stop all && pm2 unstartup`
     - `sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo`
     - `sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key`
     - `sudo yum install jre jenkins -y`
