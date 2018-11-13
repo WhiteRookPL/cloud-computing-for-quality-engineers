@@ -22,7 +22,7 @@ In this assignment we would like to show how easy is to create a *VM* with use o
     - `sudo yum update -y`
     - `sudo pm2 stop all`
     - `sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo`
-    - `sudo rpm --import https://pkg.jenkins-ci.io/redhat/jenkins.io.key`
+    - `sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key`
     - `sudo yum install jdk jre jenkins -y`
     - `sudo service jenkins start`
 4. Connect to `http://YOUR_SERVER_PUBLIC_DNS:8080` from your favorite browser.
