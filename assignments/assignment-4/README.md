@@ -54,7 +54,7 @@ We would like to present a *serverless*, interactive query service called *Amazo
     - Example queries:
         - `SELECT * FROM elb_logs_raw_native WHERE elb_response_code = '200' LIMIT 100;`
         - `SELECT COUNT(*) AS count, elb_response_code FROM elb_logs_raw_native GROUP BY elb_response_code ORDER BY count DESC;`
-        - `SELECT COUNT(*) AS count, DISTINCT request_ip, elb_response_code FROM elb_logs_raw_native GROUP BY request_ip, elb_response_code ORDER BY count DESC LIMIT 100;`
+        - `SELECT COUNT(*) AS count, request_ip, elb_response_code FROM elb_logs_raw_native GROUP BY request_ip, elb_response_code HAVING elb_response_code != '200' ORDER BY count DESC LIMIT 100;`
     - If any query will go be slow or go above the expected time, you can cancel it going to the *History* tab.
 
 ## FAQ and Cheat-sheet
