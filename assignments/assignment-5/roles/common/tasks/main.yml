@@ -7,3 +7,9 @@
 
 - debug:
     msg: "Ansible invoked inside {{ builder }}."
+    
+- name: Install the package "curl"
+  yum:
+    name: curl
+    state: present
+  become: true
